@@ -25,17 +25,17 @@ go get github.com/abcum/docket
 #### Example usage
 
 ```
-docket ca --out-crt ca.crt --out-key ca.key
+docket ca --out-org Abcum --out-crt ca.crt --out-key ca.key
 ```
 
 ```
-docket client --ca-crt ca.crt --ca-key ca.key --out-crt client.crt --out-key client.key
+docket client --ca-crt ca.crt --ca-key ca.key --out-org Abcum --out-crt client.crt --out-key client.key
 ```
 
 ```
-docket server --ca-crt ca.crt --ca-key ca.key --out-crt server.crt --out-key server.key example.com
+docket server --ca-crt ca.crt --ca-key ca.key --out-org Abcum --out-crt server.crt --out-key server.key example.com
 ```
 
 ```
-docket server --ca-crt ca.crt --ca-key ca.key --out-crt server.crt --out-key server.key 10.0.1.1 10.0.1.2 10.0.1.3
+docket server --ca-crt ca.crt --ca-key ca.key --out-org Abcum --out-crt server.crt --out-key server.key 10.0.1.1 10.0.1.2 10.0.1.3
 ```

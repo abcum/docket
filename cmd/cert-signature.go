@@ -30,9 +30,9 @@ import (
 
 type certSignatureOptions struct {
 	Out struct {
-		Pub  string
-		Prv  string
-		Size int
+		Bit int
+		Pub string
+		Prv string
 	}
 }
 
@@ -59,7 +59,7 @@ var certSignatureCmd = &cobra.Command{
 
 		var enc []byte
 
-		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Size)
+		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Bit)
 		if err != nil {
 			return fmt.Errorf("Signature generation failed: %#v", err)
 		}
@@ -100,9 +100,8 @@ func init() {
 
 	certSignatureOpt = &certSignatureOptions{}
 
+	certSignatureCmd.PersistentFlags().IntVar(&certSignatureOpt.Out.Bit, "key-size", 4096, "The desired number of bits for the key.")
 	certSignatureCmd.PersistentFlags().StringVar(&certSignatureOpt.Out.Pub, "out-pub", "", "The path destination for the public key file.")
 	certSignatureCmd.PersistentFlags().StringVar(&certSignatureOpt.Out.Prv, "out-pri", "", "The path destination for the private key file.")
-
-	certSignatureCmd.PersistentFlags().IntVar(&certCaOpt.Out.Size, "key-size", 4096, "The desired number of bits for the key.")
 
 }

@@ -33,9 +33,10 @@ import (
 
 type certCaOptions struct {
 	Out struct {
-		Crt  string
-		Key  string
-		Size int
+		Bit int
+		Org string
+		Crt string
+		Key string
 	}
 }
 
@@ -46,6 +47,10 @@ var certCaCmd = &cobra.Command{
 	Short:   "Create a new CA certificate and key.",
 	Example: "  surreal cert ca --out-crt crt/ca.crt --out-key crt/ca.key",
 	PreRunE: func(cmd *cobra.Command, args []string) error {
+
+		if len(certCaOpt.Out.Org) == 0 {
+			return fmt.Errorf("Please provide an organisation name.")
+		}
 
 		if len(certCaOpt.Out.Crt) == 0 {
 			return fmt.Errorf("Please provide a certificate file path.")
@@ -65,12 +70,12 @@ var certCaCmd = &cobra.Command{
 		csr := &x509.Certificate{
 			IsCA: true,
 			Subject: pkix.Name{
-				CommonName:   "Surreal CA",
-				Organization: []string{"Surreal"},
+				CommonName:   "Certificate Authority",
+				Organization: []string{certCaOpt.Out.Org},
 			},
 			Issuer: pkix.Name{
-				CommonName:   "Surreal CA",
-				Organization: []string{"Surreal"},
+				CommonName:   "Certificate Authority",
+				Organization: []string{certCaOpt.Out.Org},
 			},
 			BasicConstraintsValid: true,
 			SignatureAlgorithm:    x509.SHA512WithRSA,
@@ -86,7 +91,7 @@ var certCaCmd = &cobra.Command{
 				x509.KeyUsageContentCommitment,
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Size)
+		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Bit)
 		if err != nil {
 			return fmt.Errorf("CA certificate generation failed: %#v", err)
 		}
@@ -127,9 +132,9 @@ func init() {
 
 	certCaOpt = &certCaOptions{}
 
+	certCaCmd.PersistentFlags().IntVar(&certCaOpt.Out.Bit, "key-size", 4096, "The desired number of bits for the key.")
+	certCaCmd.PersistentFlags().StringVar(&certCaOpt.Out.Org, "out-org", "", "The origanisation name for the CA certificate.")
 	certCaCmd.PersistentFlags().StringVar(&certCaOpt.Out.Crt, "out-crt", "", "The path destination for the CA certificate file.")
 	certCaCmd.PersistentFlags().StringVar(&certCaOpt.Out.Key, "out-key", "", "The path destination for the CA private key file.")
-
-	certCaCmd.PersistentFlags().IntVar(&certCaOpt.Out.Size, "key-size", 4096, "The desired number of bits for the key.")
 
 }

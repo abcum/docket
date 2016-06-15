@@ -38,9 +38,10 @@ type certServerOptions struct {
 		Key string
 	}
 	Out struct {
-		Crt  string
-		Key  string
-		Size int
+		Bit int
+		Org string
+		Crt string
+		Key string
 	}
 }
 
@@ -58,6 +59,10 @@ var certServerCmd = &cobra.Command{
 
 		if len(certServerOpt.CA.Key) == 0 {
 			return fmt.Errorf("Please provide a CA private key file path.")
+		}
+
+		if len(certServerOpt.Out.Org) == 0 {
+			return fmt.Errorf("Please provide an organisation name.")
 		}
 
 		if len(certServerOpt.Out.Crt) == 0 {
@@ -116,8 +121,8 @@ var certServerCmd = &cobra.Command{
 
 		csr := &x509.Certificate{
 			Subject: pkix.Name{
-				CommonName:   "Surreal Server Certificate",
-				Organization: []string{"Surreal"},
+				CommonName:   "Server Certificate",
+				Organization: []string{certServerOpt.Out.Org},
 			},
 			BasicConstraintsValid: true,
 			SignatureAlgorithm:    x509.SHA512WithRSA,
@@ -136,7 +141,7 @@ var certServerCmd = &cobra.Command{
 			IPAddresses: ips,
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Size)
+		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Bit)
 		if err != nil {
 			return fmt.Errorf("Certificate generation failed: %#v", err)
 		}
@@ -180,9 +185,9 @@ func init() {
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.CA.Crt, "ca-crt", "", "The path to the CA certificate file.")
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.CA.Key, "ca-key", "", "The path to the CA private key file.")
 
+	certServerCmd.PersistentFlags().IntVar(&certServerOpt.Out.Bit, "key-size", 4096, "The desired number of bits for the key.")
+	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Org, "out-org", "", "The origanisation name for the CA certificate.")
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Crt, "out-crt", "", "The path destination for the server certificate file.")
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Key, "out-key", "", "The path destination for the server private key file.")
-
-	certServerCmd.PersistentFlags().IntVar(&certCaOpt.Out.Size, "key-size", 4096, "The desired number of bits for the key.")
 
 }
