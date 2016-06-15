@@ -33,8 +33,9 @@ import (
 
 type certCaOptions struct {
 	Out struct {
-		Crt string
-		Key string
+		Crt  string
+		Key  string
+		Size int
 	}
 }
 
@@ -85,7 +86,7 @@ var certCaCmd = &cobra.Command{
 				x509.KeyUsageContentCommitment,
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, 4096)
+		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Size)
 		if err != nil {
 			return fmt.Errorf("CA certificate generation failed: %#v", err)
 		}
@@ -128,5 +129,7 @@ func init() {
 
 	certCaCmd.PersistentFlags().StringVar(&certCaOpt.Out.Crt, "out-crt", "", "The path destination for the CA certificate file.")
 	certCaCmd.PersistentFlags().StringVar(&certCaOpt.Out.Key, "out-key", "", "The path destination for the CA private key file.")
+
+	certCaCmd.PersistentFlags().IntVar(&certCaOpt.Out.Size, "key-size", 4096, "The desired number of bits for the key.")
 
 }

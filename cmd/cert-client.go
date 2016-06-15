@@ -37,8 +37,9 @@ type certClientOptions struct {
 		Key string
 	}
 	Out struct {
-		Crt string
-		Key string
+		Crt  string
+		Key  string
+		Size int
 	}
 }
 
@@ -117,7 +118,7 @@ var certClientCmd = &cobra.Command{
 			ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth},
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, 4096)
+		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Size)
 		if err != nil {
 			return fmt.Errorf("Certificate generation failed: %#v", err)
 		}
@@ -163,5 +164,7 @@ func init() {
 
 	certClientCmd.PersistentFlags().StringVar(&certClientOpt.Out.Crt, "out-crt", "", "The path destination for the client certificate file.")
 	certClientCmd.PersistentFlags().StringVar(&certClientOpt.Out.Key, "out-key", "", "The path destination for the client private key file.")
+
+	certClientCmd.PersistentFlags().IntVar(&certCaOpt.Out.Size, "key-size", 4096, "The desired number of bits for the key.")
 
 }

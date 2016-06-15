@@ -38,8 +38,9 @@ type certServerOptions struct {
 		Key string
 	}
 	Out struct {
-		Crt string
-		Key string
+		Crt  string
+		Key  string
+		Size int
 	}
 }
 
@@ -135,7 +136,7 @@ var certServerCmd = &cobra.Command{
 			IPAddresses: ips,
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, 4096)
+		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Size)
 		if err != nil {
 			return fmt.Errorf("Certificate generation failed: %#v", err)
 		}
@@ -181,5 +182,7 @@ func init() {
 
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Crt, "out-crt", "", "The path destination for the server certificate file.")
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Key, "out-key", "", "The path destination for the server private key file.")
+
+	certServerCmd.PersistentFlags().IntVar(&certCaOpt.Out.Size, "key-size", 4096, "The desired number of bits for the key.")
 
 }
