@@ -2,7 +2,7 @@
 
 A certificate generation tool written in Go (Golang).
 
-[![](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abcum/docket) [![](https://goreportcard.com/badge/github.com/abcum/docket?style=flat-square)](https://goreportcard.com/report/github.com/abcum/docket) [![](https://img.shields.io/badge/license-Apache_License_2.0-blue.svg?style=flat-square)](https://github.com/abcum/docket) 
+[![](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/abcum/docket) [![](https://goreportcard.com/badge/github.com/abcum/docket?style=flat-square)](https://goreportcard.com/report/github.com/abcum/docket) [![](https://img.shields.io/badge/license-Apache_License_2.0-00bfff.svg?style=flat-square)](https://github.com/abcum/docket) 
 
 #### Features
 
@@ -18,24 +18,24 @@ A certificate generation tool written in Go (Golang).
 
 #### Installation
 
-```
+```bash
 go get github.com/abcum/docket
 ```
 
 #### Example usage
 
-```
+```bash
 docket ca --out-org Abcum --out-crt ca.crt --out-key ca.key
 ```
 
-```
+```bash
 docket client --ca-crt ca.crt --ca-key ca.key --out-org Abcum --out-crt client.crt --out-key client.key
 ```
 
-```
+```bash
 docket server --ca-crt ca.crt --ca-key ca.key --out-org Abcum --out-crt server.crt --out-key server.key example.com
 ```
 
-```
+```bash
 docket server --ca-crt ca.crt --ca-key ca.key --out-org Abcum --out-crt server.crt --out-key server.key 10.0.1.1 10.0.1.2 10.0.1.3
 ```
