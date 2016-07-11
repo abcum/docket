@@ -169,7 +169,7 @@ func init() {
 	certClientCmd.PersistentFlags().StringVar(&certClientOpt.CA.Key, "ca-key", "", "The path to the CA private key file.")
 
 	certClientCmd.PersistentFlags().IntVar(&certClientOpt.Out.Bit, "key-size", 4096, "The desired number of bits for the key.")
-	certServerCmd.PersistentFlags().StringVar(&certClientOpt.Out.Com, "out-com", "", "The common name for the client certificate.")
+	certClientCmd.PersistentFlags().StringVar(&certClientOpt.Out.Com, "out-com", "", "The common name for the client certificate.")
 	certClientCmd.PersistentFlags().StringVar(&certClientOpt.Out.Org, "out-org", "", "The origanisation name for the client certificate.")
 	certClientCmd.PersistentFlags().StringVar(&certClientOpt.Out.Crt, "out-crt", "", "The path destination for the client certificate file.")
 	certClientCmd.PersistentFlags().StringVar(&certClientOpt.Out.Key, "out-key", "", "The path destination for the client private key file.")
