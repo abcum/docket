@@ -59,7 +59,7 @@ var certSignatureCmd = &cobra.Command{
 
 		var enc []byte
 
-		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Bit)
+		key, err := rsa.GenerateKey(rand.Reader, certSignatureOpt.Out.Bit)
 		if err != nil {
 			return fmt.Errorf("Signature generation failed: %#v", err)
 		}

@@ -141,7 +141,7 @@ var certServerCmd = &cobra.Command{
 			IPAddresses: ips,
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Bit)
+		key, err := rsa.GenerateKey(rand.Reader, certServerOpt.Out.Bit)
 		if err != nil {
 			return fmt.Errorf("Certificate generation failed: %#v", err)
 		}

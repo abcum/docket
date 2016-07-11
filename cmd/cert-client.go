@@ -123,7 +123,7 @@ var certClientCmd = &cobra.Command{
 			ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth},
 		}
 
-		key, err := rsa.GenerateKey(rand.Reader, certCaOpt.Out.Bit)
+		key, err := rsa.GenerateKey(rand.Reader, certClientOpt.Out.Bit)
 		if err != nil {
 			return fmt.Errorf("Certificate generation failed: %#v", err)
 		}
