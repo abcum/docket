@@ -70,11 +70,11 @@ var certCaCmd = &cobra.Command{
 		csr := &x509.Certificate{
 			IsCA: true,
 			Subject: pkix.Name{
-				CommonName:   "Certificate Authority",
+				CommonName:   fmt.Sprintf("%s CA", certCaOpt.Out.Org),
 				Organization: []string{certCaOpt.Out.Org},
 			},
 			Issuer: pkix.Name{
-				CommonName:   "Certificate Authority",
+				CommonName:   fmt.Sprintf("%s CA", certCaOpt.Out.Org),
 				Organization: []string{certCaOpt.Out.Org},
 			},
 			BasicConstraintsValid: true,
