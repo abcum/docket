@@ -39,6 +39,7 @@ type certServerOptions struct {
 	}
 	Out struct {
 		Bit int
+		Com string
 		Org string
 		Crt string
 		Key string
@@ -121,7 +122,7 @@ var certServerCmd = &cobra.Command{
 
 		csr := &x509.Certificate{
 			Subject: pkix.Name{
-				CommonName:   "Server Certificate",
+				CommonName:   certServerOpt.Out.Com,
 				Organization: []string{certServerOpt.Out.Org},
 			},
 			BasicConstraintsValid: true,
@@ -186,7 +187,8 @@ func init() {
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.CA.Key, "ca-key", "", "The path to the CA private key file.")
 
 	certServerCmd.PersistentFlags().IntVar(&certServerOpt.Out.Bit, "key-size", 4096, "The desired number of bits for the key.")
-	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Org, "out-org", "", "The origanisation name for the CA certificate.")
+	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Com, "out-com", "", "The common name for the server certificate.")
+	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Org, "out-org", "", "The origanisation name for the server certificate.")
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Crt, "out-crt", "", "The path destination for the server certificate file.")
 	certServerCmd.PersistentFlags().StringVar(&certServerOpt.Out.Key, "out-key", "", "The path destination for the server private key file.")
 
