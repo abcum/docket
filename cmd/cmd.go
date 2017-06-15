@@ -31,6 +31,7 @@ func init() {
 		certCaCmd,
 		certClientCmd,
 		certServerCmd,
+		certClusterCmd,
 		certSignatureCmd,
 	)
 
