@@ -10,6 +10,7 @@ A certificate generation tool written in Go (Golang).
 - Defaults are optimised for security
 - Create CAs for distributed services
 - Create client authentication certificates
+- Create server authentication certificates
 - Create cluster authentication certificates
 - Create rsa encryption private + public key pairs
 - Can be used to create self-signed development certificates
